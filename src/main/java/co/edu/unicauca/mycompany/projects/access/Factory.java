@@ -11,48 +11,39 @@ import java.util.Map;
  */
 public class Factory {
 
-    /**
-     * Singleton
-     */
-    private static Factory instance;
-
-    private Map<String, ICompanyRepository> dictionary;
+  private static Factory instance;
+    private Map<String, IReadOnlyRepository> readOnlyRepositories;
+    private Map<String, IWritableRepository> writableRepositories;
 
     private Factory() {
-        dictionary = new HashMap<>();
-        dictionary.put("ARRAYS", new CompanyArraysRepository());
-        dictionary.put("SQLITE", new CompanySqliteRepository());
+        readOnlyRepositories = new HashMap<>();
+        writableRepositories = new HashMap<>();
+
+        // Repositorios que soportan lectura y escritura
+        CompanyArraysRepository arraysRepo = new CompanyArraysRepository();
+        readOnlyRepositories.put("ARRAYS", arraysRepo);
+        writableRepositories.put("ARRAYS", arraysRepo);
+
+        CompanySqliteRepository sqliteRepo = new CompanySqliteRepository();
+        readOnlyRepositories.put("SQLITE", (IReadOnlyRepository) sqliteRepo);
+        writableRepositories.put("SQLITE", (IWritableRepository) sqliteRepo);
+
+        // Repositorio de solo lectura
+        readOnlyRepositories.put("BINARY", new CompanyBinaryRepository());
     }
 
-    /**
-     * Clase singleton
-     *
-     * @return
-     */
     public static Factory getInstance() {
-
         if (instance == null) {
             instance = new Factory();
         }
         return instance;
-
     }
 
-    /**
-     * Método que crea una instancia concreta de la jerarquia ICompanyRepository
-     *
-     * @param repository cadena que indica qué tipo de clase hija debe instanciar
-     * @return una clase hija de la abstracción IProductRepository
-     */
-    public ICompanyRepository getRepository(String repository) {
+    public IReadOnlyRepository getReadOnlyRepository(String repository) {
+        return readOnlyRepositories.get(repository);
+    }
 
-        ICompanyRepository result = null;
-
-        if (dictionary.containsKey(repository)) {
-            result = dictionary.get(repository);
-        }
-
-        return result;
-
+    public IWritableRepository getWritableRepository(String repository) {
+        return writableRepositories.get(repository);
     }
 }

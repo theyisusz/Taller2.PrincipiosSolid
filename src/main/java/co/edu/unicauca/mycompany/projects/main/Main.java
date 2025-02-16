@@ -2,7 +2,8 @@
 package co.edu.unicauca.mycompany.projects.main;
 
 import co.edu.unicauca.mycompany.projects.access.Factory;
-import co.edu.unicauca.mycompany.projects.access.ICompanyRepository;
+import co.edu.unicauca.mycompany.projects.access.IReadOnlyRepository;
+import co.edu.unicauca.mycompany.projects.access.IWritableRepository;
 import co.edu.unicauca.mycompany.projects.domain.services.CompanyService;
 import co.edu.unicauca.mycompany.projects.presentation.GUIMenu;
 import javax.swing.JFrame;
@@ -21,8 +22,11 @@ public class Main {
         
         // Hacia futuro el tipo de repositorio lo podemos leer de un archivo plano
         // setup.properties, asi no tendriamos que recompilar la aplicación
-        ICompanyRepository repository = Factory.getInstance().getRepository("ARRAYS");// Podria ir SQLITE
-        CompanyService service = new CompanyService(repository);
+        Factory factory = Factory.getInstance();
+        IReadOnlyRepository readOnlyRepo = factory.getReadOnlyRepository("ARRAYS"); // Podría ser "SQLITE" o "BINARY"
+        IWritableRepository writableRepo = factory.getWritableRepository("ARRAYS"); // Podría ser "SQLITE"
+
+        CompanyService service = new CompanyService(readOnlyRepo, writableRepo);
         GUIMenu instance = new GUIMenu(service);
         instance.setExtendedState(JFrame.MAXIMIZED_BOTH);
         instance.setVisible(true);

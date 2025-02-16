@@ -1,7 +1,9 @@
 
 package co.edu.unicauca.mycompany.projects.presentation;
 
+import co.edu.unicauca.mycompany.projects.domain.entities.Company;
 import co.edu.unicauca.mycompany.projects.domain.entities.Sector;
+import co.edu.unicauca.mycompany.projects.domain.services.CompanyService;
 import javax.swing.JFrame;
 
 /**
@@ -9,7 +11,7 @@ import javax.swing.JFrame;
  * @author Libardo, Julio
  */
 public class GUINewCompany extends javax.swing.JDialog {
-
+private CompanyService service; // Declarar la variable service
     /**
      * Creates new form GUINewCompany
      * @param parent
@@ -51,11 +53,11 @@ public class GUINewCompany extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtWeb = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cboSector = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -106,7 +108,7 @@ public class GUINewCompany extends javax.swing.JDialog {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Página web:");
         pnlCenter.add(jLabel5);
-        pnlCenter.add(jTextField4);
+        pnlCenter.add(txtWeb);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("*Sector industrial:");
@@ -118,7 +120,7 @@ public class GUINewCompany extends javax.swing.JDialog {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("*Email:");
         pnlCenter.add(jLabel7);
-        pnlCenter.add(jTextField6);
+        pnlCenter.add(txtEmail);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("*Password:");
@@ -139,14 +141,35 @@ public class GUINewCompany extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+      
         String nit = txtNit.getText().trim();
-        if (nit.equals("")){
-            Messages.showMessageDialog("Debe agregar el Nit", "Atención");
-            txtNit.requestFocus();
+        String name = txtName.getText().trim();
+        String phone = txtPhone.getText().trim();
+        String web = txtWeb.getText().trim(); // Página web
+        String email = txtEmail.getText().trim();
+        String password = txtPassword.getText().trim();
+        Sector sector = Sector.valueOf(cboSector.getSelectedItem().toString()); // Obtener el sector seleccionado
+
+        // Validar campos obligatorios
+        if (nit.isEmpty() || name.isEmpty() || sector == null || email.isEmpty() || password.isEmpty()) {
+            Messages.showMessageDialog("Todos los campos obligatorios (*) deben estar completos.", "Atención");
             return;
         }
-    }//GEN-LAST:event_btnSaveActionPerformed
 
+        // Crear una nueva instancia de Company
+        Company newCompany = new Company(nit, name, phone, web, sector, email, password);
+
+        // Llamar al servicio para guardar la empresa
+        boolean isSaved = service.saveCompany(newCompany);
+
+        // Mostrar mensaje de éxito o error
+        if (isSaved) {
+            Messages.showMessageDialog("Empresa guardada con éxito.", "Éxito");
+            this.dispose(); // Cerrar la ventana después de guardar
+        } else {
+            Messages.showMessageDialog("Error al guardar la empresa. Verifique el NIT.", "Error");
+    }//GEN-LAST:event_btnSaveActionPerformed
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -163,13 +186,13 @@ public class GUINewCompany extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlSouth;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNit;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtWeb;
     // End of variables declaration//GEN-END:variables
 }
