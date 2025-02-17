@@ -1,7 +1,15 @@
 package co.edu.unicauca.mycompany.projects.access;
 
-import java.util.List;
 import co.edu.unicauca.mycompany.projects.domain.entities.Company;
+import co.edu.unicauca.mycompany.projects.domain.entities.Sector;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementación del repositorio con Sqlite
@@ -12,24 +20,62 @@ import co.edu.unicauca.mycompany.projects.domain.entities.Company;
 
 
 public class CompanySqliteRepository implements IReadOnlyRepository, IWritableRepository  {
-    private final String url = "jdbc:sqlite:mycompany.db"; // Cambia el nombre de la base de datos si es necesario
+ private static final String URL = "jdbc:sqlite:mycompany.db";
 
-    public CompanySqliteRepository(){
-            initializeDatabase();
-    }
- 
-    private void initializeDatabase() {
-   
+    public CompanySqliteRepository() {
+        DatabaseInitializer.initializeDatabase(); // Asegurarse de que la base de datos esté inicializada
     }
 
     @Override
     public boolean save(Company newCompany) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "INSERT INTO companies(nit, name, phone, web, sector, email, password) VALUES(?,?,?,?,?,?,?)";
+
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, newCompany.getNit());
+            statement.setString(2, newCompany.getName());
+            statement.setString(3, newCompany.getPhone());
+            statement.setString(4, newCompany.getPageWeb());
+            statement.setString(5, newCompany.getSector().toString());
+            statement.setString(6, newCompany.getEmail());
+            statement.setString(7, newCompany.getPassword());
+
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error al guardar la empresa: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public List<Company> listAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Company> companies = new ArrayList<>();
+        String sql = "SELECT nit, name, phone, web, sector, email, password FROM companies";
+
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String nit = resultSet.getString("nit");
+                String name = resultSet.getString("name");
+                String phone = resultSet.getString("phone");
+                String web = resultSet.getString("web");
+                Sector sector = Sector.valueOf(resultSet.getString("sector"));
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+
+                companies.add(new Company(nit, name, phone, web, sector, email, password));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al listar las empresas: " + e.getMessage());
+        }
+
+        return companies;
     }
 
    

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Factory {
 
-  private static Factory instance;
+    private static Factory instance;
     private Map<String, IReadOnlyRepository> readOnlyRepositories;
     private Map<String, IWritableRepository> writableRepositories;
 
@@ -19,17 +19,13 @@ public class Factory {
         readOnlyRepositories = new HashMap<>();
         writableRepositories = new HashMap<>();
 
-        // Repositorios que soportan lectura y escritura
         CompanyArraysRepository arraysRepo = new CompanyArraysRepository();
         readOnlyRepositories.put("ARRAYS", arraysRepo);
         writableRepositories.put("ARRAYS", arraysRepo);
 
         CompanySqliteRepository sqliteRepo = new CompanySqliteRepository();
-        readOnlyRepositories.put("SQLITE", (IReadOnlyRepository) sqliteRepo);
-        writableRepositories.put("SQLITE", (IWritableRepository) sqliteRepo);
-
-        // Repositorio de solo lectura
-        readOnlyRepositories.put("BINARY", new CompanyBinaryRepository());
+        readOnlyRepositories.put("SQLITE", sqliteRepo);
+        writableRepositories.put("SQLITE", sqliteRepo);
     }
 
     public static Factory getInstance() {
@@ -46,4 +42,5 @@ public class Factory {
     public IWritableRepository getWritableRepository(String repository) {
         return writableRepositories.get(repository);
     }
+
 }

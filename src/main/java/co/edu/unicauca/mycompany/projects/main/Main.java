@@ -23,13 +23,17 @@ public class Main {
         // Hacia futuro el tipo de repositorio lo podemos leer de un archivo plano
         // setup.properties, asi no tendriamos que recompilar la aplicación
         Factory factory = Factory.getInstance();
-        IReadOnlyRepository readOnlyRepo = factory.getReadOnlyRepository("ARRAYS"); // Podría ser "SQLITE" o "BINARY"
-        IWritableRepository writableRepo = factory.getWritableRepository("ARRAYS"); // Podría ser "SQLITE"
-
+        //IReadOnlyRepository readOnlyRepo = factory.getReadOnlyRepository("ARRAYS"); // Podría ser "SQLITE" o "BINARY"
+        //IWritableRepository writableRepo = factory.getWritableRepository("ARRAYS"); // Podría ser "SQLITE"
+        IReadOnlyRepository readOnlyRepo = factory.getReadOnlyRepository("SQLITE"); // Usar SQLITE
+        IWritableRepository writableRepo = factory.getWritableRepository("SQLITE"); // Usar SQLITE
+        
         CompanyService service = new CompanyService(readOnlyRepo, writableRepo);
         GUIMenu instance = new GUIMenu(service);
         instance.setExtendedState(JFrame.MAXIMIZED_BOTH);
         instance.setVisible(true);
+        
+        
     }
     
 }
