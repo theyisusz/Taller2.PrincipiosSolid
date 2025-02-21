@@ -1,6 +1,9 @@
 # Taller2.PrincipiosSolid
 Presentado por: Jesus Albeiro Zuniga
               : Juan Esteban Mera
+              : Yeixon Julián Gembuel Ciclos
+              :Adrián Camilo Bergaño
+              :Cristobal Vilaquiran Rodríguez 
 1)El taller solucionado ya implementamos toda la parte sqlLite y Arrays dunciona con cualquiera de los dos ,en la rama master se podra ver todo el codigo realizado
 2)
 El principio de diseño que le esta dando flexibilidad a la solucion es el principio de diseño Factory y el singleton.
