@@ -16,5 +16,5 @@ El principio de diseño factory lo que hace es que se puede intercambiar entre d
 Esto lo podemos utilizar en el Main donde podemos cambiar entre repositorios arrays y SQlite.
 El principio que se viola es el de Segregación de Interfaces (ISP) ya que una iterfaz no debería verse obligada a depender de métodos que no utiliza
 Esto significa que las interfaces deben ser específicas y contener solo los métodos necesarios para el comportamiento que representan.Es decir el mismo
-principio nos ayuda a refactorizar la interfaz y dividiendola en dos una de escritura y otra de lectura con eso la aplicacion es mas flexible.
+principio nos ayuda a refactorizar la interfaz y dividiendola en dos una de escritura y otra de lectura con eso la aplicacion es más flexible.
 
