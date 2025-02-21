@@ -10,8 +10,9 @@ import javax.swing.JFrame;
 
 
 /**
- *
- * @author Libardo Pantoja
+ *Clase principal de la aplicación. Se encarga de inicializar los componentes
+ * principales y mostrar la interfaz gráfica.
+ * 
  */
 public class Main {
 
@@ -21,7 +22,8 @@ public class Main {
     public static void main(String[] args) {
         
         // Hacia futuro el tipo de repositorio lo podemos leer de un archivo plano
-        // setup.properties, asi no tendriamos que recompilar la aplicación
+             // La configuración del tipo de repositorio podría almacenarse en un archivo
+        // de configuración (setup.properties) para evitar recompilar la aplicación en el futuro.
         Factory factory = Factory.getInstance();
         //IReadOnlyRepository readOnlyRepo = factory.getReadOnlyRepository("ARRAYS"); // Podría ser "SQLITE" o "BINARY"
         //IWritableRepository writableRepo = factory.getWritableRepository("ARRAYS"); // Podría ser "SQLITE"
@@ -30,8 +32,8 @@ public class Main {
         
         CompanyService service = new CompanyService(readOnlyRepo, writableRepo);
         GUIMenu instance = new GUIMenu(service);
-        instance.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        instance.setVisible(true);
+        instance.setExtendedState(JFrame.MAXIMIZED_BOTH);// Maximiza la ventana al abrirse.
+        instance.setVisible(true);// Hace visible la interfaz gráfica.
         
         
     }
