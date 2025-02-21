@@ -47,7 +47,7 @@ public class CompanySqliteRepository implements IReadOnlyRepository, IWritableRe
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            System.err.println("Error al guardar la empresa: " + e.getMessage());
+            System.err.println("Error al guardar la empresa ingresada: " + e.getMessage());
             return false;
         }
     }
@@ -76,7 +76,7 @@ public class CompanySqliteRepository implements IReadOnlyRepository, IWritableRe
 
         } catch (SQLException e) {
             //Mensaje de error cuando no se pueden listar empresas
-            System.err.println("Error al listar las empresas: " + e.getMessage());
+            System.err.println("Error al listar las empresas seleccionadas: " + e.getMessage());
         }
 
         return companies;
