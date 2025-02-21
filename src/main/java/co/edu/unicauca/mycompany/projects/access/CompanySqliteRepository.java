@@ -20,12 +20,14 @@ import java.util.List;
 
 
 public class CompanySqliteRepository implements IReadOnlyRepository, IWritableRepository  {
+ // URL de conexión a la base de datos SQLite
  private static final String URL = "jdbc:sqlite:mycompany.db";
-
+    // Constructor que se asegura de inicializar la base de datos
     public CompanySqliteRepository() {
         DatabaseInitializer.initializeDatabase(); // Asegurarse de que la base de datos esté inicializada
     }
-
+    // Implementación del método save() de IWritableRepository
+    // Guarda una nueva compañía en la base de datos
     @Override
     public boolean save(Company newCompany) {
         String sql = "INSERT INTO companies(nit, name, phone, web, sector, email, password) VALUES(?,?,?,?,?,?,?)";
@@ -49,7 +51,8 @@ public class CompanySqliteRepository implements IReadOnlyRepository, IWritableRe
             return false;
         }
     }
-
+    // Implementación del método listAll() de IReadOnlyRepository
+    // Obtiene todas las compañías almacenadas en la base de datos
     @Override
     public List<Company> listAll() {
         List<Company> companies = new ArrayList<>();

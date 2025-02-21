@@ -14,8 +14,9 @@ import java.sql.Statement;
  * @author RoLoNeGaTiVo
  */
 public class DatabaseInitializer {
+    // URL de conexión a la base de datos SQLite
     private static final String URL = "jdbc:sqlite:mycompany.db";
-
+     // Método estático que inicializa la base de datos creando la tabla si no existe
     public static void initializeDatabase() {
         try (Connection connection = DriverManager.getConnection(URL);
              Statement statement = connection.createStatement()) {
