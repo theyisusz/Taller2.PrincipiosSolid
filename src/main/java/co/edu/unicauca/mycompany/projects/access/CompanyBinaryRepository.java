@@ -11,6 +11,8 @@ import java.util.List;
  *
  * @author Yisus
  */
+
+//Implementacion de la interfaz IReadOnlyReposiroty.
 public class CompanyBinaryRepository implements IReadOnlyRepository{
     
     @Override
