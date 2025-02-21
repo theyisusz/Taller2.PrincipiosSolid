@@ -32,7 +32,7 @@ public class Main {
         
         CompanyService service = new CompanyService(readOnlyRepo, writableRepo);
         GUIMenu instance = new GUIMenu(service);
-        instance.setExtendedState(JFrame.MAXIMIZED_BOTH);// Maximiza la ventana al abrirse.
+        instance.setExtendedState(JFrame.MAXIMIZED_BOTH);// Maximiza la ventana al abrirse. 
         instance.setVisible(true);// Hace visible la interfaz gráfica.
         
         
