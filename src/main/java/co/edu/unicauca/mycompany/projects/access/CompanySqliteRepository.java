@@ -75,6 +75,7 @@ public class CompanySqliteRepository implements IReadOnlyRepository, IWritableRe
             }
 
         } catch (SQLException e) {
+            //Mensaje de error cuando no se pueden listar empresas
             System.err.println("Error al listar las empresas: " + e.getMessage());
         }
 

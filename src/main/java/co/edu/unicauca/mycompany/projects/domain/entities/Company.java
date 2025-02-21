@@ -6,6 +6,7 @@ package co.edu.unicauca.mycompany.projects.domain.entities;
  */
 public class Company {
 
+    
     private String nit;
     private String name;
     private String phone;
