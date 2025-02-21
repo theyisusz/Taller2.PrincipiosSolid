@@ -11,6 +11,7 @@ import java.sql.Statement;
 
 /**
  *
+ * 
  * @author RoLoNeGaTiVo
  */
 public class DatabaseInitializer {
